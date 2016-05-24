@@ -1,0 +1,26 @@
+{
+  "name": "playground-js-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Qlik-Branch/playground-js-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Qlik-Branch/playground-js-api/issues"
+  },
+  "homepage": "https://github.com/Qlik-Branch/playground-js-api#readme",
+  "dependencies": {
+    "browserify": "^13.0.0",
+    "promise": "^7.1.1"
+  },
+  "devDependencies": {
+    "grunt-browserify": "^5.0.0"
+  }
+}
