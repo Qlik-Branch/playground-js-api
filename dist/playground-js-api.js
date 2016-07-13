@@ -1,4 +1,9 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+module.exports = {
+  host: "http://localhost:3000"
+}
+
+},{}],2:[function(require,module,exports){
 "use strict";
 
 // rawAsap provides everything we need except exception management.
@@ -66,7 +71,7 @@ RawTask.prototype.call = function () {
     }
 };
 
-},{"./raw":2}],2:[function(require,module,exports){
+},{"./raw":3}],3:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -290,12 +295,12 @@ rawAsap.makeRequestCallFromTimer = makeRequestCallFromTimer;
 // https://github.com/tildeio/rsvp.js/blob/cddf7232546a9cf858524b75cde6f9edf72620a7/lib/rsvp/asap.js
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./lib')
 
-},{"./lib":8}],4:[function(require,module,exports){
+},{"./lib":9}],5:[function(require,module,exports){
 'use strict';
 
 var asap = require('asap/raw');
@@ -510,7 +515,7 @@ function doResolve(fn, promise) {
   }
 }
 
-},{"asap/raw":2}],5:[function(require,module,exports){
+},{"asap/raw":3}],6:[function(require,module,exports){
 'use strict';
 
 var Promise = require('./core.js');
@@ -525,7 +530,7 @@ Promise.prototype.done = function (onFulfilled, onRejected) {
   });
 };
 
-},{"./core.js":4}],6:[function(require,module,exports){
+},{"./core.js":5}],7:[function(require,module,exports){
 'use strict';
 
 //This file contains the ES6 extensions to the core Promises/A+ API
@@ -634,7 +639,7 @@ Promise.prototype['catch'] = function (onRejected) {
   return this.then(null, onRejected);
 };
 
-},{"./core.js":4}],7:[function(require,module,exports){
+},{"./core.js":5}],8:[function(require,module,exports){
 'use strict';
 
 var Promise = require('./core.js');
@@ -652,7 +657,7 @@ Promise.prototype['finally'] = function (f) {
   });
 };
 
-},{"./core.js":4}],8:[function(require,module,exports){
+},{"./core.js":5}],9:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./core.js');
@@ -662,7 +667,7 @@ require('./es6-extensions.js');
 require('./node-extensions.js');
 require('./synchronous.js');
 
-},{"./core.js":4,"./done.js":5,"./es6-extensions.js":6,"./finally.js":7,"./node-extensions.js":9,"./synchronous.js":10}],9:[function(require,module,exports){
+},{"./core.js":5,"./done.js":6,"./es6-extensions.js":7,"./finally.js":8,"./node-extensions.js":10,"./synchronous.js":11}],10:[function(require,module,exports){
 'use strict';
 
 // This file contains then/promise specific extensions that are only useful
@@ -794,7 +799,7 @@ Promise.prototype.nodeify = function (callback, ctx) {
   });
 }
 
-},{"./core.js":4,"asap":1}],10:[function(require,module,exports){
+},{"./core.js":5,"asap":2}],11:[function(require,module,exports){
 'use strict';
 
 var Promise = require('./core.js');
@@ -858,55 +863,88 @@ Promise.disableSynchronous = function() {
   Promise.prototype.getState = undefined;
 };
 
-},{"./core.js":4}],11:[function(require,module,exports){
+},{"./core.js":5}],12:[function(require,module,exports){
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var Promise = require("promise");
+var envConfig = require('../../../config');
 
-var qlik_playground = (function(){
+var qlik_playground = function () {
+  var PSubscription = function () {
+    function PSubscription() {
+      _classCallCheck(this, PSubscription);
 
-function qlik_playground(){
-
-}
-
-qlik_playground.prototype = Object.create(Object.prototype, {
-  Authenticate:{
-    value: function(authType, apiKey){
-      return new Promise(function(resolve, reject){
-        get("http://localhost:3000/auth/apikey?apikey="+apiKey, function(err, res){
-          if(err){
-            reject(err);
-          }
-          else{
-            resolve(res);
-          }
-        });
-      })
+      this.callbackList = [];
     }
+
+    _createClass(PSubscription, [{
+      key: "subscribe",
+      value: function subscribe(fn) {
+        this.callbackList.push(fn);
+      }
+    }, {
+      key: "deliver",
+      value: function deliver(args) {
+        this.callbackList.forEach(function (item, index) {
+          item(args);
+        });
+      }
+    }]);
+
+    return PSubscription;
+  }();
+
+  function qlik_playground() {
+    this.notification = new PSubscription();
   }
-});
 
-function get(url, callbackFn){
-  var getReq = new XMLHttpRequest();
-  getReq.onreadystatechange = function() {
-   if (getReq.readyState == 4 && getReq.status == 200) {
-     callbackFn(null, getReq.responseText);
-   }
-   else if(getReq.readyState == 4 && getReq.status != 200){
-     callbackFn(getReq.responseText);
-   }
- };
- getReq.open("GET", url, true);
- getReq.send();
-}
+  qlik_playground.prototype = Object.create(Object.prototype, {
+    notification: {
+      writable: true,
+      value: null
+    },
+    authenticate: {
+      value: function value(apiKey) {
+        return new Promise(function (resolve, reject) {
+          get(envConfig.host + "/api/ticket?apikey=" + apiKey).then(function (ticketResponse) {
+            var ticket = JSON.parse(ticketResponse);
+            if (ticket.err) {
+              reject(ticket.err);
+            } else {
+              resolve(ticket.ticket);
+            }
+          });
+        });
+      }
+    }
+  });
 
-function post(){
+  function get(url, callbackFn) {
+    return new Promise(function (resolve, reject) {
+      var getReq = new XMLHttpRequest();
+      getReq.onreadystatechange = function () {
+        if (getReq.readyState == 4 && getReq.status == 200) {
+          // callbackFn(null, getReq.responseText);
+          resolve(getReq.responseText);
+        } else if (getReq.readyState == 4 && getReq.status != 200) {
+          // callbackFn(getReq.responseText);
+          reject(getReq.responseText);
+        }
+      };
+      getReq.open("GET", url, true);
+      getReq.send();
+    });
+  }
 
-}
+  function post() {}
 
-return qlik_playground;
-
-}());
+  return qlik_playground;
+}();
 
 window.Playground = new qlik_playground();
 
-
-},{"promise":3}]},{},[11]);
+},{"../../../config":1,"promise":4}]},{},[12]);

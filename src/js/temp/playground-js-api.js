@@ -1,21 +1,42 @@
 var Promise = require("promise");
+var envConfig = require('../../../config');
 
 var qlik_playground = (function(){
 
-function qlik_playground(){
+class PSubscription{
+  constructor(){
+    this.callbackList = [];
+  }
+  subscribe(fn){
+    this.callbackList.push(fn);
+  }
+  deliver(args){
+    this.callbackList.forEach(function(item, index){
+      item(args);
+    });
+  }
+}
 
+
+function qlik_playground(){
+  this.notification = new PSubscription();
 }
 
 qlik_playground.prototype = Object.create(Object.prototype, {
-  Authenticate:{
-    value: function(authType, apiKey){
+  notification:{
+    writable: true,
+    value: null
+  },
+  authenticate:{
+    value: function(apiKey){
       return new Promise(function(resolve, reject){
-        get("http://localhost:3000/auth/apikey?apikey="+apiKey, function(err, res){
-          if(err){
-            reject(err);
+        get(envConfig.host+"/api/ticket?apikey="+apiKey).then(function(ticketResponse){
+          var ticket = JSON.parse(ticketResponse);
+          if(ticket.err){
+            reject(ticket.err);
           }
           else{
-            resolve(res);
+            resolve(ticket.ticket);
           }
         });
       })
@@ -24,18 +45,23 @@ qlik_playground.prototype = Object.create(Object.prototype, {
 });
 
 function get(url, callbackFn){
-  var getReq = new XMLHttpRequest();
-  getReq.onreadystatechange = function() {
-   if (getReq.readyState == 4 && getReq.status == 200) {
-     callbackFn(null, getReq.responseText);
-   }
-   else if(getReq.readyState == 4 && getReq.status != 200){
-     callbackFn(getReq.responseText);
-   }
- };
- getReq.open("GET", url, true);
- getReq.send();
+  return new Promise(function(resolve, reject){
+    var getReq = new XMLHttpRequest();
+    getReq.onreadystatechange = function() {
+      if (getReq.readyState == 4 && getReq.status == 200) {
+        // callbackFn(null, getReq.responseText);
+        resolve(getReq.responseText);
+      }
+      else if(getReq.readyState == 4 && getReq.status != 200){
+        // callbackFn(getReq.responseText);
+        reject(getReq.responseText);
+      }
+    };
+    getReq.open("GET", url, true);
+    getReq.send();
+  });
 }
+
 
 function post(){
 
@@ -46,4 +72,3 @@ return qlik_playground;
 }());
 
 window.Playground = new qlik_playground();
-
