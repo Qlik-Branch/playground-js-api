@@ -29,13 +29,26 @@ qlik_playground.prototype = Object.create(Object.prototype, {
   },
   authenticate:{
     value: function(apiKey){
-      return new Promise(function(resolve, reject){
+      return new Promise((resolve, reject)=>{
+        this.notification.deliver({
+          title: "Please wait...",
+          message: "Authenticating"
+        });
         get(envConfig.host+"/api/ticket?apikey="+apiKey).then(function(ticketResponse){
           var ticket = JSON.parse(ticketResponse);
           if(ticket.err){
+            this.notification.deliver({
+              sentiment: "negative",
+              title: "Please wait...",
+              message: "Authenticating"
+            });
             reject(ticket.err);
           }
           else{
+            this.notification.deliver({
+              title: "Ready",
+              duration: 300
+            });
             resolve(ticket.ticket);
           }
         });
@@ -45,7 +58,7 @@ qlik_playground.prototype = Object.create(Object.prototype, {
 });
 
 function get(url, callbackFn){
-  return new Promise(function(resolve, reject){
+  return new Promise((resolve, reject)=>{
     var getReq = new XMLHttpRequest();
     getReq.onreadystatechange = function() {
       if (getReq.readyState == 4 && getReq.status == 200) {

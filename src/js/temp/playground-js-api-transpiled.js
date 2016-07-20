@@ -43,12 +43,27 @@ var qlik_playground = function () {
     },
     authenticate: {
       value: function value(apiKey) {
+        var _this = this;
+
         return new Promise(function (resolve, reject) {
+          _this.notification.deliver({
+            title: "Please wait...",
+            message: "Authenticating"
+          });
           get(envConfig.host + "/api/ticket?apikey=" + apiKey).then(function (ticketResponse) {
             var ticket = JSON.parse(ticketResponse);
             if (ticket.err) {
+              this.notification.deliver({
+                sentiment: "negative",
+                title: "Please wait...",
+                message: "Authenticating"
+              });
               reject(ticket.err);
             } else {
+              this.notification.deliver({
+                title: "Ready",
+                duration: 300
+              });
               resolve(ticket.ticket);
             }
           });

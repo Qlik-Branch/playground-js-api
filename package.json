@@ -1,6 +1,6 @@
 {
   "name": "playground-js-api",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/Qlik-Branch/playground-js-api.git"
   },
-  "author": "",
+  "author": "Qlik Branch",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Qlik-Branch/playground-js-api/issues"
