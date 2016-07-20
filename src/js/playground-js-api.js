@@ -21,7 +21,7 @@ qlik_playground.prototype = Object.create(Object.prototype, {
           title: "Please wait...",
           message: "Authenticating"
         });
-        get(envConfig.host+"/api/ticket?apikey="+apiKey).then(function(ticketResponse){
+        get(envConfig.host+"/api/ticket?apikey="+apiKey).then((ticketResponse)=>{
           var ticket = JSON.parse(ticketResponse);
           if(ticket.err){
             this.notification.deliver({

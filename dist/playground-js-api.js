@@ -919,14 +919,14 @@ var qlik_playground = function () {
           get(envConfig.host + "/api/ticket?apikey=" + apiKey).then(function (ticketResponse) {
             var ticket = JSON.parse(ticketResponse);
             if (ticket.err) {
-              this.notification.deliver({
+              _this.notification.deliver({
                 sentiment: "negative",
                 title: "Please wait...",
                 message: "Authenticating"
               });
               reject(ticket.err);
             } else {
-              this.notification.deliver({
+              _this.notification.deliver({
                 title: "Ready",
                 duration: 300
               });
