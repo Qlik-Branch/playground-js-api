@@ -908,7 +908,7 @@ var qlik_playground = function () {
       value: null
     },
     authenticate: {
-      value: function value(apiKey, force) {
+      value: function value(apiKey) {
         var _this = this;
 
         return new Promise(function (resolve, reject) {
@@ -917,18 +917,13 @@ var qlik_playground = function () {
             message: "Authenticating"
           });
           var authUrl = envConfig.host + "/api/ticket?apikey=" + apiKey;
-          if (force === true) {
-            authUrl += "&force=true";
-          } else {
-            authUrl += "&force=none";
-          }
           get(authUrl).then(function (ticketResponse) {
             var ticket = JSON.parse(ticketResponse);
             if (ticket.err) {
               _this.notification.deliver({
                 sentiment: "negative",
-                title: "Please wait...",
-                message: "Authenticating"
+                title: "Error",
+                message: ticket.err
               });
               reject(ticket.err);
             } else {

@@ -15,26 +15,20 @@ qlik_playground.prototype = Object.create(Object.prototype, {
     value: null
   },
   authenticate:{
-    value: function(apiKey, force){
+    value: function(apiKey){
       return new Promise((resolve, reject)=>{
         this.notification.deliver({
           title: "Please wait...",
           message: "Authenticating"
         });
         var authUrl = envConfig.host+"/api/ticket?apikey="+apiKey;
-        if(force===true){
-          authUrl+="&force=true";
-        }
-        else{
-          authUrl+="&force=none";
-        }
         get(authUrl).then((ticketResponse)=>{
           var ticket = JSON.parse(ticketResponse);
           if(ticket.err){
             this.notification.deliver({
               sentiment: "negative",
-              title: "Please wait...",
-              message: "Authenticating"
+              title: "Error",
+              message: ticket.err
             });
             reject(ticket.err);
           }
