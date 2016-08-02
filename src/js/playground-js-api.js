@@ -15,13 +15,13 @@ qlik_playground.prototype = Object.create(Object.prototype, {
     value: null
   },
   authenticate:{
-    value: function(apiKey){
-      return new Promise((resolve, reject)=>{
+    value: function(config){
+      // return new Promise((resolve, reject)=>{
         this.notification.deliver({
           title: "Please wait...",
           message: "Authenticating"
         });
-        var authUrl = envConfig.host+"/api/ticket?apikey="+apiKey;
+        var authUrl = envConfig.host+"/api/ticket?apikey="+config.apiKey;
         get(authUrl).then((ticketResponse)=>{
           var ticket = JSON.parse(ticketResponse);
           if(ticket.err){
@@ -33,14 +33,15 @@ qlik_playground.prototype = Object.create(Object.prototype, {
             reject(ticket.err);
           }
           else{
-            this.notification.deliver({
-              title: "Ready",
-              duration: 300
-            });
-            resolve(ticket.ticket);
+            window.location = ( config.isSecure ? "https://" : "http://" ) + config.host + (config.port ? ":" + config.port: "") + "/playground/content/Default/authStub.html?qlikTicket=" + ticket.ticket;
+            // this.notification.deliver({
+            //   title: "Ready",
+            //   duration: 300
+            // });
+            // resolve(ticket.ticket);
           }
         });
-      })
+      // })
     }
   }
 });

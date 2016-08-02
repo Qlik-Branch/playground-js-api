@@ -1,0 +1,100 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'publish' ]
+2 info using npm@2.15.1
+3 info using node@v4.4.3
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/Users/nwr/2015/Development/Node/playground-js-api',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /Users/nwr/.npm/playground-js-api/0.1.8/package.tgz not in flight; packing
+9 verbose correctMkdir /Users/nwr/.npm correctMkdir not in flight; initializing
+10 verbose tar pack [ '/Users/nwr/.npm/playground-js-api/0.1.8/package.tgz',
+10 verbose tar pack   '/Users/nwr/2015/Development/Node/playground-js-api' ]
+11 verbose tarball /Users/nwr/.npm/playground-js-api/0.1.8/package.tgz
+12 verbose folder /Users/nwr/2015/Development/Node/playground-js-api
+13 info prepublish playground-js-api@0.1.8
+14 verbose addLocalTarball adding from inside cache /Users/nwr/.npm/playground-js-api/0.1.8/package.tgz
+15 verbose correctMkdir /Users/nwr/.npm correctMkdir not in flight; initializing
+16 silly cache afterAdd playground-js-api@0.1.8
+17 verbose afterAdd /Users/nwr/.npm/playground-js-api/0.1.8/package/package.json not in flight; writing
+18 verbose correctMkdir /Users/nwr/.npm correctMkdir not in flight; initializing
+19 verbose afterAdd /Users/nwr/.npm/playground-js-api/0.1.8/package/package.json written
+20 silly publish { name: 'playground-js-api',
+20 silly publish   version: '0.1.8',
+20 silly publish   description: '',
+20 silly publish   main: 'index.js',
+20 silly publish   scripts: { test: 'echo "Error: no test specified" && exit 1' },
+20 silly publish   repository:
+20 silly publish    { type: 'git',
+20 silly publish      url: 'git+https://github.com/Qlik-Branch/playground-js-api.git' },
+20 silly publish   author: { name: 'Qlik Branch' },
+20 silly publish   license: 'ISC',
+20 silly publish   bugs: { url: 'https://github.com/Qlik-Branch/playground-js-api/issues' },
+20 silly publish   homepage: 'https://github.com/Qlik-Branch/playground-js-api#readme',
+20 silly publish   dependencies: {},
+20 silly publish   devDependencies:
+20 silly publish    { 'babel-preset-es2015': '^6.9.0',
+20 silly publish      browserify: '^13.0.0',
+20 silly publish      'grunt-babel': '^6.0.0',
+20 silly publish      'grunt-browserify': '^5.0.0',
+20 silly publish      'grunt-contrib-less': '^1.3.0',
+20 silly publish      'grunt-includes': '^1.0.0',
+20 silly publish      promise: '^7.1.1' },
+20 silly publish   readme: '# playground-js-api',
+20 silly publish   readmeFilename: 'README.md',
+20 silly publish   gitHead: 'dc4dff9a2bfad12c3c4f4d2ff622dcf47bba6669',
+20 silly publish   _id: 'playground-js-api@0.1.8',
+20 silly publish   _shasum: '3259f3119f9a15ff155f9ba24ca6bbc5bd6d3ea0',
+20 silly publish   _from: '.' }
+21 verbose getPublishConfig undefined
+22 silly mapToRegistry name playground-js-api
+23 silly mapToRegistry using default registry
+24 silly mapToRegistry registry https://registry.npmjs.org/
+25 silly mapToRegistry data Result {
+25 silly mapToRegistry   raw: 'playground-js-api',
+25 silly mapToRegistry   scope: null,
+25 silly mapToRegistry   name: 'playground-js-api',
+25 silly mapToRegistry   rawSpec: '',
+25 silly mapToRegistry   spec: 'latest',
+25 silly mapToRegistry   type: 'tag' }
+26 silly mapToRegistry uri https://registry.npmjs.org/playground-js-api
+27 verbose publish registryBase https://registry.npmjs.org/
+28 silly publish uploading /Users/nwr/.npm/playground-js-api/0.1.8/package.tgz
+29 verbose request uri https://registry.npmjs.org/playground-js-api
+30 verbose request sending authorization for write operation
+31 info attempt registry request try #1 at 4:24:19 PM
+32 verbose request using bearer token for auth
+33 verbose request id c20777976a469923
+34 http request PUT https://registry.npmjs.org/playground-js-api
+35 info retry will retry, error on last attempt: Error: Hostname/IP doesn't match certificate's altnames: "Host: registry.npmjs.org. is not in the cert's altnames: DNS:www.ombord.info, DNS:ombord.info"
+36 info attempt registry request try #2 at 4:24:29 PM
+37 verbose request using bearer token for auth
+38 http request PUT https://registry.npmjs.org/playground-js-api
+39 info retry will retry, error on last attempt: Error: Hostname/IP doesn't match certificate's altnames: "Host: registry.npmjs.org. is not in the cert's altnames: DNS:www.ombord.info, DNS:ombord.info"
+40 info attempt registry request try #3 at 4:25:30 PM
+41 verbose request using bearer token for auth
+42 http request PUT https://registry.npmjs.org/playground-js-api
+43 verbose request invalidating /Users/nwr/.npm/registry.npmjs.org/playground-js-api on PUT
+44 error publish Failed PUT undefined
+45 verbose stack Error: Hostname/IP doesn't match certificate's altnames: "Host: registry.npmjs.org. is not in the cert's altnames: DNS:www.ombord.info, DNS:ombord.info"
+45 verbose stack     at Object.checkServerIdentity (tls.js:186:15)
+45 verbose stack     at TLSSocket.<anonymous> (_tls_wrap.js:1023:29)
+45 verbose stack     at emitNone (events.js:67:13)
+45 verbose stack     at TLSSocket.emit (events.js:166:7)
+45 verbose stack     at TLSSocket._init.ssl.onclienthello.ssl.oncertcb.TLSSocket._finishInit (_tls_wrap.js:582:8)
+45 verbose stack     at TLSWrap.ssl.onclienthello.ssl.oncertcb.ssl.onnewsession.ssl.onhandshakedone (_tls_wrap.js:424:38)
+46 verbose cwd /Users/nwr/2015/Development/Node/playground-js-api
+47 error Darwin 14.5.0
+48 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "publish"
+49 error node v4.4.3
+50 error npm  v2.15.1
+51 error Hostname/IP doesn't match certificate's altnames: "Host: registry.npmjs.org. is not in the cert's altnames: DNS:www.ombord.info, DNS:ombord.info"
+52 error If you need help, you may report this error at:
+52 error     <https://github.com/npm/npm/issues>
+53 verbose exit [ 1, true ]

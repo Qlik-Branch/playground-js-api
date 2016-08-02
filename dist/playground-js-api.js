@@ -908,33 +908,34 @@ var qlik_playground = function () {
       value: null
     },
     authenticate: {
-      value: function value(apiKey) {
+      value: function value(config) {
         var _this = this;
 
-        return new Promise(function (resolve, reject) {
-          _this.notification.deliver({
-            title: "Please wait...",
-            message: "Authenticating"
-          });
-          var authUrl = envConfig.host + "/api/ticket?apikey=" + apiKey;
-          get(authUrl).then(function (ticketResponse) {
-            var ticket = JSON.parse(ticketResponse);
-            if (ticket.err) {
-              _this.notification.deliver({
-                sentiment: "negative",
-                title: "Error",
-                message: ticket.err
-              });
-              reject(ticket.err);
-            } else {
-              _this.notification.deliver({
-                title: "Ready",
-                duration: 300
-              });
-              resolve(ticket.ticket);
-            }
-          });
+        // return new Promise((resolve, reject)=>{
+        this.notification.deliver({
+          title: "Please wait...",
+          message: "Authenticating"
         });
+        var authUrl = envConfig.host + "/api/ticket?apikey=" + config.apiKey;
+        get(authUrl).then(function (ticketResponse) {
+          var ticket = JSON.parse(ticketResponse);
+          if (ticket.err) {
+            _this.notification.deliver({
+              sentiment: "negative",
+              title: "Error",
+              message: ticket.err
+            });
+            reject(ticket.err);
+          } else {
+            window.location = (config.isSecure ? "https://" : "http://") + config.host + (config.port ? ":" + config.port : "") + "/playground/content/Default/authStub.html?qlikTicket=" + ticket.ticket;
+            // this.notification.deliver({
+            //   title: "Ready",
+            //   duration: 300
+            // });
+            // resolve(ticket.ticket);
+          }
+        });
+        // })
       }
     }
   });
