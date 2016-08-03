@@ -908,10 +908,9 @@ var qlik_playground = function () {
       value: null
     },
     authenticate: {
-      value: function value(config) {
+      value: function value(config, connectionMethod) {
         var _this = this;
 
-        // return new Promise((resolve, reject)=>{
         this.notification.deliver({
           title: "Please wait...",
           message: "Authenticating"
@@ -927,15 +926,21 @@ var qlik_playground = function () {
             });
             reject(ticket.err);
           } else {
-            window.location = (config.isSecure ? "https://" : "http://") + config.host + (config.port ? ":" + config.port : "") + "/playground/content/Default/authStub.html?qlikTicket=" + ticket.ticket;
-            // this.notification.deliver({
-            //   title: "Ready",
-            //   duration: 300
-            // });
-            // resolve(ticket.ticket);
+            switch (connectionMethod.toLowerCase()) {
+              case "qsocks":
+                return new Promise(function (resolve, reject) {
+                  _this.notification.deliver({
+                    title: "Ready",
+                    duration: 300
+                  });
+                  resolve(ticket.ticket);
+                });
+                break;
+              default:
+                window.location = (config.isSecure ? "https://" : "http://") + config.host + (config.port ? ":" + config.port : "") + "/playground/content/Default/authStub.html?qlikTicket=" + ticket.ticket;
+            }
           }
         });
-        // })
       }
     }
   });
