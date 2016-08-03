@@ -29,6 +29,10 @@ qlik_playground.prototype = Object.create(Object.prototype, {
   },
   authenticate:{
     value: function(config, connectionMethod){
+      var connMethod = "";
+      if(connectionMethod){
+        connMethod = connectionMethod.toLowerCase();
+      }
       this.notification.deliver({
         title: "Please wait...",
         message: "Authenticating"
@@ -45,7 +49,8 @@ qlik_playground.prototype = Object.create(Object.prototype, {
           reject(ticket.err);
         }
         else{
-          switch (connectionMethod.toLowerCase()) {
+
+          switch (connMethod) {
             case "qsocks":
               return new Promise((resolve, reject)=>{
                 this.notification.deliver({
@@ -59,7 +64,7 @@ qlik_playground.prototype = Object.create(Object.prototype, {
               window.location = ( config.isSecure ? "https://" : "http://" ) + config.host + (config.port ? ":" + config.port: "") + "/playground/content/Default/authStub.html?qlikTicket=" + ticket.ticket;
           }
         }
-      });      
+      });
     }
   }
 });

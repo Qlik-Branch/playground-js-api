@@ -45,6 +45,10 @@ var qlik_playground = function () {
       value: function value(config, connectionMethod) {
         var _this = this;
 
+        var connMethod = "";
+        if (connectionMethod) {
+          connMethod = connectionMethod.toLowerCase();
+        }
         this.notification.deliver({
           title: "Please wait...",
           message: "Authenticating"
@@ -60,7 +64,8 @@ var qlik_playground = function () {
             });
             reject(ticket.err);
           } else {
-            switch (connectionMethod.toLowerCase()) {
+
+            switch (connMethod) {
               case "qsocks":
                 return new Promise(function (resolve, reject) {
                   _this.notification.deliver({
