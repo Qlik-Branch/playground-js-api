@@ -63,13 +63,15 @@ In order to consume content from the <a href="http://help.qlik.com/en-US/sense-d
 ```
 
 ######Triggering authentication
+On page load of our authenticate.html we call the authenticate() function.
 ```javascript
 var config = {...};
 function authenticate(){
   Playground.authenticate(config);
 }
 ```
-
+If authentication was successful we're redirected to the main.html page.
+To load the necessary resources for the <a href="http://help.qlik.com/en-US/sense-developer/3.0/Subsystems/APIs/Content/MashupAPI/qlik-interface-interface.htm" target="_blank">Qlik Sense Capability APIs</a> we also need to include script tags to load RequireJS library from the Qlik Playground instance.
 ######Main Page
 ```html
 <!DOCTYPE html>
@@ -90,7 +92,6 @@ function authenticate(){
   </body>
 </html>
 ```
-To load the necessary resources for the <a href="http://help.qlik.com/en-US/sense-developer/3.0/Subsystems/APIs/Content/MashupAPI/qlik-interface-interface.htm" target="_blank">Qlik Sense Capability APIs</a> we need to include script tags to load RequireJS library from the Qlik Playground instance.
 
 ######Connecting to the <a href="http://help.qlik.com/en-US/sense-developer/3.0/Subsystems/APIs/Content/MashupAPI/qlik-interface-interface.htm" target="_blank">Qlik Sense Capability APIs</a>
 
