@@ -18,8 +18,8 @@ Loading the JavaScript files will create a new global object called Playground.
 The main API consists of the following methods -
 ###authenticate()
 The Authenticate method is a promise that accepts the following parameters -
-* Config - contains all of the information require to authenticate and create a connection
-* ConnectionMethod (optional) - determines the behaviour of the authentication workflow
+* **config** - contains all of the information require to authenticate and create a connection
+* **connectionMethod** (optional) - determines the behaviour of the authentication workflow
 
 ####Authentication for <a href="http://branch.qlik.com/#!/project/56728f52d1e497241ae697ca" target="blank">qSocks</a>
 ```javascript
@@ -114,3 +114,23 @@ function main(){
 ```
 
 ##UI Components
+The Qlik Playground JavaScript API also contains UI components which you can use to simplify development.
+###Notifier
+A simple notification control to add visual cues during interactions with the API, for example, the authentication progress.
+####Usage
+```html
+<playground component="notifier" id='myNotifier' class="notifier-cover"></playground>
+```
+The notifier will listen for any messages sent to it by the Qlik Playground JavaScript API but it is also possible to deliver your own messages.
+####Playground.notification.deliver()
+This method accepts the following parameters - 
+* **sentiment** - defaults to 'info'. This will set the data-sentiment attribute on the control.
+* **title** - sets the main text on the notification.
+* **message** - sets the sub text on the notification.
+* **duration** (optional) - if set will close the notification after the specified number of milliseconds, otherwise the notification will be shown indefinitely
+```javascript
+Playground.notification.deliver({
+	title: "Please wait...",
+	message: "Connecting"
+});
+```
