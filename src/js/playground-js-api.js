@@ -16,42 +16,42 @@ qlik_playground.prototype = Object.create(Object.prototype, {
   },
   authenticate:{
     value: function(config, connectionMethod){
-      var connMethod = "";
-      if(connectionMethod){
-        connMethod = connectionMethod.toLowerCase();
-      }
-      this.notification.deliver({
-        title: "Please wait...",
-        message: "Authenticating"
-      });
-      var authUrl = envConfig.host+"/api/ticket?apikey="+config.apiKey;
-      get(authUrl).then((ticketResponse)=>{
-        var ticket = JSON.parse(ticketResponse);
-        if(ticket.err){
-          this.notification.deliver({
-            sentiment: "negative",
-            title: "Error",
-            message: ticket.err
-          });
-          reject(ticket.err);
+      return new Promise((resolve, reject)=>{
+        var connMethod = "";
+        if(connectionMethod){
+          connMethod = connectionMethod.toLowerCase();
         }
-        else{
+        this.notification.deliver({
+          title: "Please wait...",
+          message: "Authenticating"
+        });
+        var authUrl = envConfig.host+"/api/ticket?apikey="+config.apiKey;
+        get(authUrl).then((ticketResponse)=>{
+          var ticket = JSON.parse(ticketResponse);
+          if(ticket.err){
+            this.notification.deliver({
+              sentiment: "negative",
+              title: "Error",
+              message: ticket.err
+            });
+            reject(ticket.err);
+          }
+          else{
 
-          switch (connMethod) {
-            case "qsocks":
-              return new Promise((resolve, reject)=>{
+            switch (connMethod) {
+              case "qsocks":
                 this.notification.deliver({
                   title: "Ready",
                   duration: 300
                 });
                 resolve(ticket.ticket);
-              })
-              break;
-            default:
-              window.location = ( config.isSecure ? "https://" : "http://" ) + config.host + (config.port ? ":" + config.port: "") + "/playground/content/Default/authStub.html?qlikTicket=" + ticket.ticket;
+                break;
+              default:
+                window.location = ( config.isSecure ? "https://" : "http://" ) + config.host + (config.port ? ":" + config.port: "") + "/playground/content/Default/authStub.html?qlikTicket=" + ticket.ticket;
+            }
           }
-        }
-      });
+        });
+      })
     }
   }
 });
