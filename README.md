@@ -1,5 +1,5 @@
 # Qlik Playground JavaScript API
-A JavaScript API for use when connecting to the <a href='http://playground.qlik.com' target="_blank">Qlik Sense Playground</a>
+A JavaScript API for use when connecting to the <a href='http://playground.qlik.com' target="_blank">Qlik Playground</a>
 
 ##Installation
 ```
