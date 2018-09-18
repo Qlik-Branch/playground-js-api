@@ -47,7 +47,15 @@ qlik_playground.prototype = Object.create(Object.prototype, {
                 resolve(ticket.ticket);
                 break;
               default:
-                window.location = ( config.isSecure ? "https://" : "http://" ) + config.host + (config.port ? ":" + config.port: "") + "/playground/content/Default/authStub.html?qlikTicket=" + ticket.ticket;
+                // window.location = ( config.isSecure ? "https://" : "http://" ) + config.host + (config.port ? ":" + config.port: "") + "/playground/content/Default/authStub.html?qlikTicket=" + ticket.ticket;
+								let authStubUrl = ( config.isSecure ? "https://" : "http://" ) + config.host + (config.port ? ":" + config.port: "") + "/playground/content/Default/authStub.html?qlikTicket=" + ticket.ticket;
+                for(let p in config.customParams){
+                  authStubUrl += "&";
+                  authStubUrl += p;
+                  authStubUrl += "=";
+                  authStubUrl += config.customParams[p];
+                }
+                window.location = authStubUrl;
             }
           }
         });
