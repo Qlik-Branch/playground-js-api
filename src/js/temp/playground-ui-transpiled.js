@@ -10,7 +10,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var PlaygroundComponentBase = function () {
   function PlaygroundComponentBase(id) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     var className = arguments[2];
 
     _classCallCheck(this, PlaygroundComponentBase);
@@ -67,11 +67,11 @@ var PlaygroundNotifier = function (_PlaygroundComponentB) {
   _inherits(PlaygroundNotifier, _PlaygroundComponentB);
 
   function PlaygroundNotifier(id) {
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     _classCallCheck(this, PlaygroundNotifier);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PlaygroundNotifier).call(this, id, options, "playground-notifier"));
+    var _this = _possibleConstructorReturn(this, (PlaygroundNotifier.__proto__ || Object.getPrototypeOf(PlaygroundNotifier)).call(this, id, options, "playground-notifier"));
 
     Playground.notification.subscribe(_this.onNotification.bind(_this));
     return _this;
