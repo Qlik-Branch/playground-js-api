@@ -53,6 +53,7 @@ qlik_playground.prototype = Object.create(Object.prototype, {
 
             switch (connMethod) {
               case "qsocks":
+							case "ticket":
                 this.notification.deliver({
                   title: "Ready",
                   duration: 300

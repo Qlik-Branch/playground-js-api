@@ -69,6 +69,7 @@ var qlik_playground = function () {
 
               switch (connMethod) {
                 case "qsocks":
+                case "ticket":
                   _this.notification.deliver({
                     title: "Ready",
                     duration: 300
