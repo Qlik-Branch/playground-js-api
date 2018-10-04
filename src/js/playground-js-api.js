@@ -1,9 +1,7 @@
-var Promise = require("promise");
-var envConfig = require('../../../config');
-
 var qlik_playground = (function(){
 
 include "./subscription.js"
+include "../../config.js"
 
 function qlik_playground(){
   this.notification = new PSubscription();

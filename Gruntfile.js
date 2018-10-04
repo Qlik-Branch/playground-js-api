@@ -15,27 +15,27 @@ module.exports = function(grunt) {
   		dist: {
   			files: [
           {
-  				'src/js/temp/playground-js-api-transpiled.js': 'src/js/temp/playground-js-api.js'
+  				'dist/playground-js-api.js': 'src/js/temp/playground-js-api.js'
           },
           {
-  				'src/js/temp/playground-ui-transpiled.js': 'src/js/temp/playground-ui.js'
+  				'dist/playground-ui.js': 'src/js/temp/playground-ui.js'
           }
         ]
   		}
   	},
-    browserify: {
-      dist: {
+		uglify:{
+      options : {
+        beautify : false,
+        mangle   : true,
+        reserveDOMProperties: true,        
+        compress : true
+      },
+      build: {
         files: [
-          {
-            'dist/playground-js-api.js': 'src/js/temp/playground-js-api-transpiled.js'
-          },
-          {
-            'dist/playground-ui.js': 'src/js/temp/playground-ui-transpiled.js'
-          }
-        ],
-        options: {
-
-        }
+          {"dist/playground-js-api.min.js":"dist/playground-js-api.js"},
+					{"dist/playground-ui.min.js":"dist/playground-ui.js"},
+					
+        ]
       }
     },
     less:{
@@ -56,6 +56,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-includes');
   grunt.loadNpmTasks('grunt-babel');
-  grunt.loadNpmTasks('grunt-browserify');
-  grunt.registerTask('default', ['includes', 'babel', 'browserify', 'less']);
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.registerTask('default', ['includes', 'babel', 'uglify', 'less']);
 };
