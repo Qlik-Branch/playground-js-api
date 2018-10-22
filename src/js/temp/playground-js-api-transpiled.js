@@ -4,9 +4,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Promise = require("promise");
-var envConfig = require('../../../config');
-
 var qlik_playground = function () {
   var PSubscription = function () {
     function PSubscription() {
@@ -31,6 +28,10 @@ var qlik_playground = function () {
 
     return PSubscription;
   }();
+
+  var envConfig = {
+    host: 'https://playground-sense.qlik.com'
+  };
 
   function qlik_playground() {
     this.notification = new PSubscription();
@@ -75,7 +76,15 @@ var qlik_playground = function () {
                   resolve(ticket.ticket);
                   break;
                 default:
-                  window.location = (config.isSecure ? "https://" : "http://") + config.host + (config.port ? ":" + config.port : "") + "/playground/content/Default/authStub.html?qlikTicket=" + ticket.ticket;
+                  // window.location = ( config.isSecure ? "https://" : "http://" ) + config.host + (config.port ? ":" + config.port: "") + "/playground/content/Default/authStub.html?qlikTicket=" + ticket.ticket;
+                  var authStubUrl = (config.isSecure ? "https://" : "http://") + config.host + (config.port ? ":" + config.port : "") + "/playground/content/Default/authStub.html?qlikTicket=" + ticket.ticket;
+                  for (var p in config.customParams) {
+                    authStubUrl += "&";
+                    authStubUrl += p;
+                    authStubUrl += "=";
+                    authStubUrl += config.customParams[p];
+                  }
+                  window.location = authStubUrl;
               }
             }
           });

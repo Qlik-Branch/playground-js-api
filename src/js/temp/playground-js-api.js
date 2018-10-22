@@ -1,6 +1,3 @@
-var Promise = require("promise");
-var envConfig = require('../../../config');
-
 var qlik_playground = (function(){
 
 class PSubscription{
@@ -17,6 +14,9 @@ class PSubscription{
   }
 }
 
+const envConfig = {
+	host: 'https://developer-api.qlik.com/playground'
+}
 
 function qlik_playground(){
   this.notification = new PSubscription();
@@ -27,6 +27,11 @@ qlik_playground.prototype = Object.create(Object.prototype, {
     writable: true,
     value: null
   },
+	notify: {
+		value: function(options) {
+			this.notification.deliver(options)
+		}
+	},
   authenticate:{
     value: function(config, connectionMethod){
       return new Promise((resolve, reject)=>{
@@ -53,6 +58,7 @@ qlik_playground.prototype = Object.create(Object.prototype, {
 
             switch (connMethod) {
               case "qsocks":
+							case "ticket":
                 this.notification.deliver({
                   title: "Ready",
                   duration: 300
@@ -60,7 +66,15 @@ qlik_playground.prototype = Object.create(Object.prototype, {
                 resolve(ticket.ticket);
                 break;
               default:
-                window.location = ( config.isSecure ? "https://" : "http://" ) + config.host + (config.port ? ":" + config.port: "") + "/playground/content/Default/authStub.html?qlikTicket=" + ticket.ticket;
+                // window.location = ( config.isSecure ? "https://" : "http://" ) + config.host + (config.port ? ":" + config.port: "") + "/playground/content/Default/authStub.html?qlikTicket=" + ticket.ticket;
+								let authStubUrl = ( config.isSecure ? "https://" : "http://" ) + config.host + (config.port ? ":" + config.port: "") + "/playground/content/Default/authStub.html?qlikTicket=" + ticket.ticket;
+                for(let p in config.customParams){
+                  authStubUrl += "&";
+                  authStubUrl += p;
+                  authStubUrl += "=";
+                  authStubUrl += config.customParams[p];
+                }
+                window.location = authStubUrl;
             }
           }
         });

@@ -1,9 +1,7 @@
-var Promise = require("promise");
-var envConfig = require('../../../config');
-
 var qlik_playground = (function(){
 
 include "./subscription.js"
+include "../../config.js"
 
 function qlik_playground(){
   this.notification = new PSubscription();
@@ -14,6 +12,11 @@ qlik_playground.prototype = Object.create(Object.prototype, {
     writable: true,
     value: null
   },
+	notify: {
+		value: function(options) {
+			this.notification.deliver(options)
+		}
+	},
   authenticate:{
     value: function(config, connectionMethod){
       return new Promise((resolve, reject)=>{
@@ -40,6 +43,7 @@ qlik_playground.prototype = Object.create(Object.prototype, {
 
             switch (connMethod) {
               case "qsocks":
+							case "ticket":
                 this.notification.deliver({
                   title: "Ready",
                   duration: 300
