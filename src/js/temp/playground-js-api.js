@@ -15,7 +15,7 @@ class PSubscription{
 }
 
 const envConfig = {
-	host: 'https://playground-sense.qlik.com'
+	host: 'https://developer.qlik.com/playground'
 }
 
 function qlik_playground(){

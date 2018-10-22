@@ -30,7 +30,7 @@ var qlik_playground = function () {
   }();
 
   var envConfig = {
-    host: 'https://playground-sense.qlik.com'
+    host: 'https://developer.qlik.com/playground'
   };
 
   function qlik_playground() {
