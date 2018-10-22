@@ -12,6 +12,11 @@ qlik_playground.prototype = Object.create(Object.prototype, {
     writable: true,
     value: null
   },
+	notify: {
+		value: function(options) {
+			this.notification.deliver(options)
+		}
+	},
   authenticate:{
     value: function(config, connectionMethod){
       return new Promise((resolve, reject)=>{

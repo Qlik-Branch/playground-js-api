@@ -42,6 +42,11 @@ var qlik_playground = function () {
       writable: true,
       value: null
     },
+    notify: {
+      value: function value(options) {
+        this.notification.deliver(options);
+      }
+    },
     authenticate: {
       value: function value(config, connectionMethod) {
         var _this = this;
